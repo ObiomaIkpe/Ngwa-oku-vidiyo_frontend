@@ -7,13 +7,18 @@ const createProducer = (localStream, producerTransport) => {
         const audioTrack = localStream.getAudioTracks()[0]
     
     try {
+        console.log("produce running on video")
     const videoProducer = await producerTransport.produce({track: videoTrack
         })
+        console.log("produce running on audio")
     const audioProducer = await producerTransport.produce({track: audioTrack})
+    console.log("produce finished")
+    resolve({audioProducer, videoProducer})
+
+
     } catch (error) {
         console.log(error, "error producing")
     }
-    resolve({audioProducer, videoProducer})
 })
 }
 
