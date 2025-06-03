@@ -6,6 +6,7 @@ import { Device } from 'mediasoup-client';
 
 import createProducerTransport from './mediasoupFunctions/createProducerTransport';
 import createProducer from './mediasoupFunctions/createProducer';
+import requestTransportToConsume from './mediasoupFunctions/requestTransportToConsume';
 
 let device = null
 let localStream = null
@@ -31,6 +32,10 @@ const joinRoom = async () => {
 
     await device.load({routerRtpCapabilities: joinRoomResp.routerRtpCapablities})
     console.log(device)
+
+    console.log(joinRoomResp)
+
+    requestTransportToConsume(joinRoomResp, socket, device)
 
     buttons.control.classList.remove('d-none')    
 }
