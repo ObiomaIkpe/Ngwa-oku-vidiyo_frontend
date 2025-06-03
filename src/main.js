@@ -62,7 +62,30 @@ const sendFeed = async () => {
   buttons.hangUp.disabled = false
 }
 
+const muteAudio = () => {
+
+  if(audioProducer.paused){
+    audioProducer.resume()
+    buttons.muteBtn.innerHTML = "Unmute"
+    buttons.muteBtn.classList.add('btn-success')
+    buttons.muteBtn.classList.remove('btn-danger')
+
+    //unpause on the server
+    socket.emit('audioChange', "unmute")
+  } else {
+    audioProducer.pause()
+    buttons.muteBtn.innerHTML = "Mute"
+    buttons.muteBtn.classList.remove('btn-success')
+    buttons.muteBtn.classList.add('btn-danger')
+
+    //pause on the server
+    socket.emit('audioChange', "mute")
+  }
+}
+
 buttons.joinRoom.addEventListener('click', joinRoom)
 buttons.enableFeed.addEventListener('click', enableFeed)
 buttons.sendFeed.addEventListener('click', sendFeed)
+buttons.muteBtn.addEventListener('click', muteAudio)
+
 
