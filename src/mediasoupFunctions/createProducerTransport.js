@@ -33,9 +33,18 @@ const createProducerTransport = (socket, device) => new Promise(async (resolve, 
             callback({id: produceResp})
         }
     })
+
+    // setInterval(async () => {
+    //     const stats = await producerTransport.getStats()
+    //     for (const report of stats.values()){
+    //         if(report.type === "outbound-rtp"){
+    //             console.log(report.bytesSent, `-`, report.packetsSent)
+    //         }
+    //     }
+    // }, 1000)
+
+
     resolve(producerTransport)
-
-
 })
 
 export default createProducerTransport;
