@@ -13,11 +13,41 @@ let localStream = null
 let producerTransport = null
 let videoProducer = null
 let audioProducer = null 
+let consumers = {}
 
 const socket = io.connect('http://localhost:3031')
 
 socket.on('connect', () => {
   console.log("frontend connected to backend succesfully")
+})
+
+
+socket.on('updateActiveSpeakers', async newListOfActives => {
+  console.log("updateActiveSpeakers", newListOfActives)
+
+  //remove all remote videos
+  const remoteVideos = document.querySelectorAll('.remote-video')
+  remoteVideos.forEach(video => video.remove())
+
+  //create a new video box for each active speaker
+  newListOfActives.forEach((activeSpeaker, i) => {
+    const videoBox = document.createElement('div')
+    videoBox.className = 'remote-video-box'
+    videoBox.id = `remote-video-box-${i}`
+
+    const videoElement = document.createElement('video')
+    videoElement.className = 'remote-video'
+    videoElement.id = `remote-video-${i}`
+    videoElement.autoplay = true
+    videoElement.playsInline = true
+
+    videoBox.appendChild(videoElement)
+    document.getElementById('remote-videos').appendChild(videoBox)
+  })
+})
+
+socket.on('newProducersToConsume', consumeData => {
+  console.log("newProducersToConsume", consumeData)
 })
 
 const joinRoom = async () => {
@@ -35,7 +65,7 @@ const joinRoom = async () => {
 
     console.log(joinRoomResp)
 
-    requestTransportToConsume(joinRoomResp, socket, device)
+    requestTransportToConsume(joinRoomResp, socket, device, consumers)
 
     buttons.control.classList.remove('d-none')    
 }

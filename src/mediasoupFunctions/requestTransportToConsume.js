@@ -2,7 +2,7 @@ import createConsumer from "./createConsumer";
 import createConsumerTransport from "./createConsumerTransport";
 
 
-const requestTransportToConsume = (consumeData, socket, device) => {
+const requestTransportToConsume = (consumeData, socket, device, consumers) => {
 
     consumeData.audioPidsToCreate.forEach(async (audioPid, i) => {
         const videoPid = consumeData.videoPidsToCreate[i];
@@ -22,12 +22,19 @@ const requestTransportToConsume = (consumeData, socket, device) => {
 
     //create a new mediaStream on the client, with both audio and video tracks
     const combinedStream = new MediaStream([audioConsumer?.track, videoConsumer?.track])
+    //TODO: write javascript code that will automatically create new video boxes for each element in the foreach loop/consumeData.audioPidsToCreate
     const remoteVideo = document.getElementById(`remote-video-${i}`)
     remoteVideo.srcObject = combinedStream
     console.log("should work...")
     })
 
-    
+    consumers[audioPid] = {
+        combinedStream,
+        userName: consumeData.associatedUserNames[i],
+        consumerTransport,
+        audioConsumer,
+        videoConsumer
+    }    
 
 }
 

@@ -28,4 +28,4 @@ const createConsumerTransport = (transportParams, device, socket, audioPid) => {
     return consumerTransport
 }
 
-export default createConsumerTransport;
+export default createConsumerTransport
