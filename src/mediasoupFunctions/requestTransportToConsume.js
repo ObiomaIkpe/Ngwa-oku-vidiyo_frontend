@@ -16,10 +16,18 @@ const requestTransportToConsume = (consumeData, socket, device) => {
     const [audioConsumer, videoConsumer] = await Promise.all([
     createConsumer(consumerTransport, audioPid, device, socket, 'audio', i),
     createConsumer(consumerTransport, videoPid, device, socket, 'video', i)])
-    })
 
     console.log(audioConsumer)
     console.log(videoConsumer)
+
+    //create a new mediaStream on the client, with both audio and video tracks
+    const combinedStream = new MediaStream([audioConsumer?.track, videoConsumer?.track])
+    const remoteVideo = document.getElementById(`remote-video-${i}`)
+    remoteVideo.srcObject = combinedStream
+    console.log("should work...")
+    })
+
+    
 
 }
 

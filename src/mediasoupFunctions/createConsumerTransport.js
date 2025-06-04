@@ -1,4 +1,3 @@
-import { useCallback } from "react"
 
 
 const createConsumerTransport = (transportParams, device, socket, audioPid) => {
@@ -17,6 +16,14 @@ const createConsumerTransport = (transportParams, device, socket, audioPid) => {
 
     consumerTransport.on("connect", async({dtlsParameters}, callback, errback) => {
         console.log("transport connect event has fired")
+
+        const connectResp = await socket.emitWithAck('connectTransport', {dtlsParameters, type: "consumer", audioPid})
+        console.log(connectResp, "connectResp is back")
+        if(connectResp === "success"){
+            callback()
+        } else{
+            errback()
+        }
     })
     return consumerTransport
 }
