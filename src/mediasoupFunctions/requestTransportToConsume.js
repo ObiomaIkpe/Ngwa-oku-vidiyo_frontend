@@ -26,7 +26,7 @@ const requestTransportToConsume = (consumeData, socket, device, consumers) => {
     const remoteVideo = document.getElementById(`remote-video-${i}`)
     remoteVideo.srcObject = combinedStream
     console.log("should work...")
-    })
+    
 
     consumers[audioPid] = {
         combinedStream,
@@ -35,6 +35,7 @@ const requestTransportToConsume = (consumeData, socket, device, consumers) => {
         audioConsumer,
         videoConsumer
     }    
+})
 
 }
 

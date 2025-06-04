@@ -48,6 +48,8 @@ socket.on('updateActiveSpeakers', async newListOfActives => {
 
 socket.on('newProducersToConsume', consumeData => {
   console.log("newProducersToConsume", consumeData)
+
+  requestTransportToConsume(consumeData, socket, device, consumers)
 })
 
 const joinRoom = async () => {
