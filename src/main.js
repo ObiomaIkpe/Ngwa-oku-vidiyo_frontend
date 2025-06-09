@@ -13,7 +13,7 @@ let localStream = null
 let producerTransport = null
 let videoProducer = null
 let audioProducer = null 
-let consumers = {}
+let consumers = {} //key off the audioPids
 
 const socket = io.connect('http://localhost:3031')
 
@@ -22,29 +22,29 @@ socket.on('connect', () => {
 })
 
 
-socket.on('updateActiveSpeakers', async newListOfActives => {
-  console.log("updateActiveSpeakers", newListOfActives)
+// socket.on('updateActiveSpeakers', async newListOfActives => {
+//   console.log("updateActiveSpeakers", newListOfActives)
 
-  //remove all remote videos
-  const remoteVideos = document.querySelectorAll('.remote-video')
-  remoteVideos.forEach(video => video.remove())
+//   //remove all remote videos
+//   const remoteVideos = document.querySelectorAll('.remote-video')
+//   remoteVideos.forEach(video => video.remove())
 
   //create a new video box for each active speaker
-  newListOfActives.forEach((activeSpeaker, i) => {
-    const videoBox = document.createElement('div')
-    videoBox.className = 'remote-video-box'
-    videoBox.id = `remote-video-box-${i}`
+  // newListOfActives.forEach((activeSpeaker, i) => {
+  //   const videoBox = document.createElement('div')
+  //   videoBox.className = 'remote-video-box'
+  //   videoBox.id = `remote-video-box-${i}`
 
-    const videoElement = document.createElement('video')
-    videoElement.className = 'remote-video'
-    videoElement.id = `remote-video-${i}`
-    videoElement.autoplay = true
-    videoElement.playsInline = true
+  //   const videoElement = document.createElement('video')
+  //   videoElement.className = 'remote-video'
+  //   videoElement.id = `remote-video-${i}`
+  //   videoElement.autoplay = true
+  //   videoElement.playsInline = true
 
-    videoBox.appendChild(videoElement)
-    document.getElementById('remote-videos').appendChild(videoBox)
-  })
-})
+  //   videoBox.appendChild(videoElement)
+  //   document.getElementById('remote-videos').appendChild(videoBox)
+  // })
+// })
 
 socket.on('newProducersToConsume', consumeData => {
   console.log("newProducersToConsume", consumeData)
