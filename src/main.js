@@ -22,29 +22,30 @@ socket.on('connect', () => {
 })
 
 
-// socket.on('updateActiveSpeakers', async newListOfActives => {
-//   console.log("updateActiveSpeakers", newListOfActives)
+socket.on('updateActiveSpeakers', async newListOfActives => {
+  console.log("updateActiveSpeakers", newListOfActives)
 
-//   //remove all remote videos
-//   const remoteVideos = document.querySelectorAll('.remote-video')
-//   remoteVideos.forEach(video => video.remove())
+  console.log(newListOfActives)
+  let slot = 0
+  //remove all videos from video elements
+  const remoteEls = document.getElementsByClassName('remote-video')
+  for(let el of remoteEls){
+    //removes all the remote video boxes
+    el.srcObject = null
+  }
+  newListOfActives.forEach(aid => {
+    if(aid !== audioProducer?.id){
+      //put this video in the next available slot
+      const remoteVideo = document.getElementById(`remote-video-${slot}`)
+      const remoteVideoUsername = document.getElementById(`username-${slot}`)
+      const consumerForThisSlot = consumers[aid]
+      remoteVideo.srcObject = consumerForThisSlot?.combinedStream
+      remoteVideoUsername.innerHTML = consumerForThisSlot?.userName
+      slot++
+    }
+  })
 
-  //create a new video box for each active speaker
-  // newListOfActives.forEach((activeSpeaker, i) => {
-  //   const videoBox = document.createElement('div')
-  //   videoBox.className = 'remote-video-box'
-  //   videoBox.id = `remote-video-box-${i}`
-
-  //   const videoElement = document.createElement('video')
-  //   videoElement.className = 'remote-video'
-  //   videoElement.id = `remote-video-${i}`
-  //   videoElement.autoplay = true
-  //   videoElement.playsInline = true
-
-  //   videoBox.appendChild(videoElement)
-  //   document.getElementById('remote-videos').appendChild(videoBox)
-  // })
-// })
+})
 
 socket.on('newProducersToConsume', consumeData => {
   console.log("newProducersToConsume", consumeData)
