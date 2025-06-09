@@ -15,7 +15,7 @@ let videoProducer = null
 let audioProducer = null 
 let consumers = {} //key off the audioPids
 
-const socket = io.connect('https://backapi.clearcomms.space')
+const socket = io.connect('https://mediasoup-videocall-app-backend.onrender.com')
 
 socket.on('connect', () => {
   console.log("frontend connected to backend succesfully")
